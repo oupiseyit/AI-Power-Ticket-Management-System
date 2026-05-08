@@ -1,18 +1,18 @@
 Code with Mosh - Claude Code for Professional Developers
 AI Powered Ticket Management System "Build from scatch"
 
-*** The Framework ***
+## The Framework ***
  - Define the scope(title,what's are we building and WHY).
  - Clarify the requirement ( What Is exactly the project do)
  - Define the MVP (Minimum Viable Product in business, which is a version of a new product with just enough features to satisfy early adopters and  provide feedback for future development).
  - Choose the tech stack (tool and technology)
  - Create the implementation plan (what's do we build first,second,third).
 
-**  PROBLEMS **
+##  PROBLEMS **
  - Humans don's like canned answers
  - This process is slow
 
-*** Quick Thinking solution ***
+## Quick Thinking solution ***
  - AI classified the ticket
  - Can this be auto-resolved?
  - Yes -> Human-friendly response
@@ -31,3 +31,13 @@ the system should be deployed with an admin. the admin can create additional age
 update the project scope document with these changes.
 
 ```
+
+## Defining the MVP
+What goes in version 1.0 ?
+MVP (Minimum Viable product) is the simplest version of a new product that allows a team to collect the maximum amount of validated learning about customers with the least effort.
+
++ FACTORS
+  - Timeline
+  - Budget
+  - Team structure
+  - Constraints
