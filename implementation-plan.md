@@ -44,10 +44,12 @@
 
 ## Phase 4 — Email Ingestion
 
-- [ ] Create Postmark inbound webhook account and configure inbound email address
-- [ ] `POST /api/webhooks/postmark/inbound` — receive raw Postmark payload, create ticket
+> Email provider TBD. Tasks will be updated once a provider is chosen.
+
+- [ ] Decide on email provider (inbound webhook vs. IMAP)
+- [ ] `POST /api/webhooks/email/inbound` — receive inbound email payload, create ticket
 - [ ] Parse payload: extract `subject`, `body` (text), `from` name + email
-- [ ] Secure webhook endpoint (verify Postmark token)
+- [ ] Secure the inbound webhook endpoint
 - [ ] Test end-to-end: send email → ticket appears in list
 
 ---
@@ -81,9 +83,9 @@
 - [ ] Seed default settings (all categories: `autoSend: false`)
 - [ ] `GET /api/settings/categories` — get per-category auto-send config
 - [ ] `PATCH /api/settings/categories/:category` — toggle auto-send (admin only)
-- [ ] On ticket create: if auto-send is on for its category, send reply immediately via Postmark
+- [ ] On ticket create: if auto-send is on for its category, send reply immediately via email provider
 - [ ] If auto-send is off: show "Send Reply" button in ticket detail for agent to review/edit/approve
-- [ ] `POST /api/tickets/:id/reply` — send reply via Postmark outbound, mark ticket as `Resolved`
+- [ ] `POST /api/tickets/:id/reply` — send reply via email provider, mark ticket as `Resolved`
 - [ ] Settings page (admin): toggle auto-send per category
 - [ ] Escalation toggle: agent can mark a ticket as escalated (`isEscalated: true`)
 

@@ -22,11 +22,13 @@
 - **Claude API (Anthropic)** — ticket classification, summaries, and reply generation
 
 ## Email
-- **Postmark** — inbound webhook (email → ticket creation) and outbound (send AI replies)
+- TBD — inbound and outbound email provider not yet decided
 
-## Infrastructure
-- **Docker** + **Docker Compose** — containerized local development and deployment
+## Deployment
+- **Docker** + **Docker Compose**
   - Services: `frontend`, `backend`, `postgres`
+  - Multi-stage `Dockerfile` for each service (dev and production builds)
+  - Environment-specific configs via `.env` files
 
 ## Project Structure
 ```
