@@ -70,3 +70,8 @@ in client app http://localhost:5173, in app component, write code to call health
 
 ## set up database
 go to https://www.postgresql.org/download/
+
+## set up prisa to postgresql
+```
+set up prisa with postgres. connect the app to helpdesk database.
+```
