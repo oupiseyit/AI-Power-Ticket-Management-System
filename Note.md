@@ -41,3 +41,17 @@ MVP (Minimum Viable product) is the simplest version of a new product that allow
   - Budget
   - Team structure
   - Constraints
+
+## Choosing the Tech stack
+```
+suggest a tech stack for this projects.
+
+- Fontend use: react with Typescript 
+- back end use: Notes.js with Express and Typescript 
+- add docker.
+
+use database sessions for authentication. 
+and store this in tech-stack.md
+```
+
+## Creating an Implementation Plan
