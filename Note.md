@@ -67,3 +67,6 @@ run both app
 
 in client app http://localhost:5173, in app component, write code to call healthcheck api and display a message.
 ```
+
+## set up database
+go to https://www.postgresql.org/download/
