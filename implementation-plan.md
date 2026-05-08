@@ -9,7 +9,8 @@
 - [ ] Write `docker-compose.yml` with three services: `frontend`, `backend`, `postgres`
 - [ ] Write `Dockerfile` for frontend and backend
 - [ ] Connect backend to PostgreSQL via Prisma (`prisma init`, `DATABASE_URL`)
-- [ ] Set up `.env` files for backend (DB, session secret, Claude API key, Postmark key)
+- [ ] Set up `.env` files for backend (DB, session secret, Claude API key, email provider key)
+- [ ] Seed the database with an initial admin user
 - [ ] Verify full stack runs locally with Docker Compose
 
 ---

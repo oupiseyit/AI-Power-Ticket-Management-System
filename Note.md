@@ -47,7 +47,7 @@ MVP (Minimum Viable product) is the simplest version of a new product that allow
 suggest a tech stack for this projects.
 
 - Fontend use: react with Typescript 
-- back end use: Notes.js with Express and Typescript 
+- backend use: Notes.js with Express and Typescript 
 - add docker.
 
 use database sessions for authentication. 
@@ -55,3 +55,15 @@ and store this in tech-stack.md
 ```
 
 ## Creating an Implementation Plan
+```
+create an implementation plan. break the project into small tasks and group them into phases.
+```
+
+## Setting up the project
+```
+Create a full-stack project with express, react, typescript and bun. use context7 for up-to-date docs.
+
+run both app
+
+in client app http://localhost:5173, in app component, write code to call healthcheck api and display a message.
+```

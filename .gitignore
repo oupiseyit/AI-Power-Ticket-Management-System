@@ -1,1 +1,30 @@
 .claude/
+
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# build outputs
+dist/
+build/
+.next/
+
+# environment files
+.env
+.env.local
+.env.*.local
+
+# Bun
+bun.lockb
+
+# logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+generated/
