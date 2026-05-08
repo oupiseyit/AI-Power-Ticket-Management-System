@@ -17,3 +17,17 @@ AI Powered Ticket Management System "Build from scatch"
  - Can this be auto-resolved?
  - Yes -> Human-friendly response
  - No  -> Assign to an agent
+
++ Clarifying the Requirements
+```
+Read @project-scope.md. Review it and ask me clarifying questions. Help me find gaps or thinks I haven't through through.
+
+tickets can have a few statues: open, resolved and closed.
+
+tickets can belong to a single category: general question, technical question, refund request.
+
+the system should be deployed with an admin. the admin can create additional agents.
+
+update the project scope document with these changes.
+
+```
