@@ -1,8 +1,8 @@
 Code with Mosh - Claude Code for Professional Developers
-AI Powered Ticket Management System "Build from scatch"
+AI Powered Ticket Management System "Build from scratch"
 
 ## The Framework ***
- - Define the scope(title,what's are we building and WHY).
+ - Define the scope( Title,what's are we building and WHY).
  - Clarify the requirement ( What Is exactly the project do)
  - Define the MVP (Minimum Viable Product in business, which is a version of a new product with just enough features to satisfy early adopters and  provide feedback for future development).
  - Choose the tech stack (tool and technology)
