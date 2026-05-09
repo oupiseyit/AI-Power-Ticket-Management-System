@@ -127,3 +127,5 @@ Then restart Claude Code and optionally run /claude-notifications-go:settings to
 ```
 set up better auth with email/password and use database sessions. bare minimum. no ui. aks me any clarifying questions.
 ```
+
+build the login page. when the user logs in, redirec them to the home page and show the user's name in nav bar along with a sing out button.
