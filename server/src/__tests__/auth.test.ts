@@ -1,13 +1,33 @@
-import { describe, it, expect, afterAll } from 'bun:test'
+import { describe, it, expect, beforeAll, afterAll } from 'bun:test'
 import request from 'supertest'
 import app from '../app.ts'
 import { prisma } from '../lib/prisma.ts'
+import { hashPassword } from 'better-auth/crypto'
 
 const EMAIL = `auth-test-${Date.now()}@test.com`
 const PASSWORD = 'testPassword123'
 const NAME = 'Test User'
 
 describe('Auth', () => {
+  beforeAll(async () => {
+    const id = crypto.randomUUID()
+    const now = new Date()
+    await prisma.user.create({
+      data: { id, name: NAME, email: EMAIL, emailVerified: false, createdAt: now, updatedAt: now },
+    })
+    await prisma.account.create({
+      data: {
+        id: crypto.randomUUID(),
+        accountId: id,
+        providerId: 'credential',
+        userId: id,
+        password: await hashPassword(PASSWORD),
+        createdAt: now,
+        updatedAt: now,
+      },
+    })
+  })
+
   afterAll(async () => {
     await prisma.user.deleteMany({ where: { email: EMAIL } })
   })
@@ -15,16 +35,7 @@ describe('Auth', () => {
   // ─── Sign-up ──────────────────────────────────────────────────────────────
 
   describe('POST /api/auth/sign-up/email', () => {
-    it('registers a new user', async () => {
-      const res = await request(app)
-        .post('/api/auth/sign-up/email')
-        .send({ email: EMAIL, password: PASSWORD, name: NAME })
-
-      expect(res.status).toBe(200)
-      expect(res.body.user?.email).toBe(EMAIL)
-    })
-
-    it('rejects a duplicate email', async () => {
+    it('rejects sign-up (disabled)', async () => {
       const res = await request(app)
         .post('/api/auth/sign-up/email')
         .send({ email: EMAIL, password: PASSWORD, name: NAME })
