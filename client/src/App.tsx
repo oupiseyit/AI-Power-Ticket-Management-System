@@ -1,58 +1,52 @@
-import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { useSession } from './lib/auth-client.ts'
+import LoginPage from './pages/LoginPage.tsx'
+import NavBar from './components/NavBar.tsx'
 
-type HealthStatus = 'loading' | 'ok' | 'error'
+function ProtectedLayout() {
+  const { data: session, isPending } = useSession()
 
-function HealthBanner() {
-  const [status, setStatus] = useState<HealthStatus>('loading')
-  const [message, setMessage] = useState('')
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then((data) => {
-        setStatus('ok')
-        setMessage(data.message)
-      })
-      .catch(() => {
-        setStatus('error')
-        setMessage('Could not reach the server')
-      })
-  }, [])
-
-  const styles: Record<HealthStatus, string> = {
-    loading: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-    ok: 'bg-green-100 text-green-800 border-green-300',
-    error: 'bg-red-100 text-red-800 border-red-300',
+  if (isPending) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <span className="text-sm text-gray-500">Loading…</span>
+      </div>
+    )
   }
 
-  const icons: Record<HealthStatus, string> = {
-    loading: '⏳',
-    ok: '✅',
-    error: '❌',
+  if (!session) {
+    return <Navigate to="/login" replace />
   }
 
   return (
-    <div className={`border rounded-md px-4 py-3 text-sm font-medium ${styles[status]}`}>
-      {icons[status]}&nbsp;
-      {status === 'loading' ? 'Checking server…' : message}
+    <div className="min-h-screen bg-gray-50">
+      <NavBar />
+      <main className="p-8">
+        <Outlet />
+      </main>
     </div>
   )
+}
+
+function AuthRedirect() {
+  const { data: session, isPending } = useSession()
+
+  if (isPending) return null
+  if (session) return <Navigate to="/tickets" replace />
+  return <LoginPage />
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-50 p-8">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">AI Ticket Management</h1>
-        <HealthBanner />
-        <Routes>
+      <Routes>
+        <Route path="/login" element={<AuthRedirect />} />
+        <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Navigate to="/tickets" replace />} />
-          <Route path="/login" element={<div className="mt-6">Login — coming in Phase 2</div>} />
-          <Route path="/tickets" element={<div className="mt-6">Tickets — coming in Phase 3</div>} />
-          <Route path="/tickets/:id" element={<div className="mt-6">Ticket detail — coming in Phase 3</div>} />
-        </Routes>
-      </div>
+          <Route path="/tickets" element={<div>Tickets — coming in Phase 3</div>} />
+          <Route path="/tickets/:id" element={<div>Ticket detail — coming in Phase 3</div>} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }
