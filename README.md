@@ -88,8 +88,8 @@ bun run dev:client
 Create `server/.env` from the example:
 
 ```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/ticket_db
-SESSION_SECRET=change-me-in-production
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/helpdesk
+BETTER_AUTH_SECRET=change-me-in-production
 FRONTEND_URL=http://localhost:5173
 NODE_ENV=development
 ANTHROPIC_API_KEY=your-api-key-here

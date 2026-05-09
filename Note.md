@@ -83,3 +83,47 @@ curl -fsSL https://raw.githubusercontent.com/777genius/claude-notifications-go/m
 
 ```
 Then restart Claude Code and optionally run /claude-notifications-go:settings to configure sounds.
+
+## Choosing an Authentication Strategy (Auth0)
+
+  # How to build Auth
+   1 - Managed Server
+   2 - 
+
+  # Managed Server
+    1 - Auth0       => The problem is cost, lack of control.
+
+  # Build your own
+    2 - better-auth => own data cost and control.
+
+  ## Software Engineering DO :
+    - What to build
+    - How to build it
+    - Why that works long term
+
+  + What problem are we solving ?
+  + how will this behave at scale ?
+  + What happens when it break ?
+  + Can others maintain it in 6 months ?
+
+  *** Decision-making is still on us
+
+  ## Build your own (better-auth)
+  - How auth works
+  - Sessions
+  - Tokens
+  - Password hashing
+  - Role-bashed access
+
+
+## Choosing a Session Strategy 
+  - There 2 approaches of Session: DATABASE, JSON-WEB-TOKEN
+# DATABASE Session
+   + CLIENT (Cookie k6vx1M)<=> SERVER  Find session (k6vx1M)<=> DATABASE
+# JSON-WEB-TOKEN Session
+   + CLIENT (Token eyJhbg) <=> SERVER
+
+
+```
+set up better auth with email/password and use database sessions. bare minimum. no ui. aks me any clarifying questions.
+```
