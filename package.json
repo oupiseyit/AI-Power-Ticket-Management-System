@@ -9,5 +9,8 @@
     "dev:client": "bun run --filter client dev",
     "build": "bun run --filter '*' build",
     "typecheck": "bun run --filter '*' typecheck"
+  },
+  "dependencies": {
+    "better-auth": "^1.6.9"
   }
 }

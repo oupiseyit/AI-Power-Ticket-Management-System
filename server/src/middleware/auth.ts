@@ -1,22 +1,22 @@
 import type { Request, Response, NextFunction } from 'express'
+import { fromNodeHeaders } from 'better-auth/node'
+import { auth } from '../lib/auth.ts'
 
-declare module 'express-session' {
-  interface SessionData {
-    userId: string
-    userRole: 'ADMIN' | 'AGENT'
-  }
-}
+export type AuthSession = NonNullable<Awaited<ReturnType<typeof auth.api.getSession>>>
 
-export function requireAuth(req: Request, res: Response, next: NextFunction) {
-  if (!req.session.userId) {
+export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+  const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) })
+  if (!session) {
     res.status(401).json({ error: 'Unauthorized' })
     return
   }
+  res.locals['authSession'] = session as AuthSession
   next()
 }
 
-export function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  if (req.session.userRole !== 'ADMIN') {
+export async function requireAdmin(_req: Request, res: Response, next: NextFunction) {
+  const session = res.locals['authSession'] as AuthSession | undefined
+  if (session?.user.role !== 'ADMIN') {
     res.status(403).json({ error: 'Forbidden' })
     return
   }

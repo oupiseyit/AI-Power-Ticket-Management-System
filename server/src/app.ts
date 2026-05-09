@@ -1,13 +1,11 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
-import session from 'express-session'
-import connectPgSimple from 'connect-pg-simple'
-import { authRouter } from './routes/auth.ts'
+import { toNodeHandler } from 'better-auth/node'
+import { auth } from './lib/auth.ts'
 import { ticketsRouter } from './routes/tickets.ts'
 
 const app = express()
-const PgStore = connectPgSimple(session)
 
 app.use(
   cors({
@@ -15,27 +13,16 @@ app.use(
     credentials: true,
   })
 )
+
+// better-auth must come before express.json()
+app.all('/api/auth/*splat', toNodeHandler(auth))
+
 app.use(express.json())
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Server is up and running' })
 })
 
-app.use(
-  session({
-    store: new PgStore({ conString: process.env['DATABASE_URL'], createTableIfMissing: true }),
-    secret: process.env['SESSION_SECRET'] ?? 'change-me',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: process.env['NODE_ENV'] === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    },
-  })
-)
-
-app.use('/api/auth', authRouter)
 app.use('/api/tickets', ticketsRouter)
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

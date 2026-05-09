@@ -1,19 +1,18 @@
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { auth } from '../src/lib/auth.ts'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  const passwordHash = await bcrypt.hash('admin123', 12)
+  await auth.api.signUpEmail({
+    body: { name: 'Admin', email: 'admin@example.com', password: 'admin123' },
+  }).catch(() => {
+    // user already exists — ignore
+  })
 
-  const admin = await prisma.user.upsert({
+  await prisma.user.update({
     where: { email: 'admin@example.com' },
-    update: {},
-    create: {
-      email: 'admin@example.com',
-      passwordHash,
-      role: 'ADMIN',
-    },
+    data: { role: 'ADMIN' },
   })
 
   for (const category of ['GENERAL', 'TECHNICAL', 'REFUND'] as const) {
@@ -24,7 +23,7 @@ async function main() {
     })
   }
 
-  console.log('Seeded admin:', admin.email)
+  console.log('Seeded admin: admin@example.com / admin123')
 }
 
 main()
