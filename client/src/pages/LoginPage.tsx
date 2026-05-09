@@ -1,83 +1,135 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { signIn } from '../lib/auth-client.ts'
+
+const schema = z.object({
+  email: z.email('Enter a valid email'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+type FormValues = z.infer<typeof schema>
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [serverError, setServerError] = useState('')
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(schema) })
 
-    const result = await signIn.email({ email, password })
-
-    setLoading(false)
-
+  async function onSubmit(values: FormValues) {
+    setServerError('')
+    const result = await signIn.email(values)
     if (result.error) {
-      setError(result.error.message ?? 'Invalid email or password')
+      setServerError(result.error.message ?? 'Invalid email or password')
       return
     }
-
-    navigate('/', { replace: true })
+    navigate('/tickets', { replace: true })
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{
+        background: `
+          radial-gradient(ellipse at 20% 50%, rgba(56,189,248,0.13) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 15%, rgba(139,92,246,0.09) 0%, transparent 55%),
+          radial-gradient(ellipse at 60% 90%, rgba(20,184,166,0.07) 0%, transparent 55%),
+          #0f172a
+        `,
+      }}
+    >
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">AI Ticket Management</h1>
-          <p className="text-sm text-gray-500 mb-8">Sign in to your account</p>
+        <div
+          className="rounded-2xl px-8 py-10 border"
+          style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
+          }}
+        >
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-white tracking-tight">
+              AI Ticket Management
+            </h1>
+            <div className="w-8 h-0.5 mt-3 mb-3" style={{ background: '#38bdf8' }} />
+            <p className="text-sm text-glass-secondary">Sign in to continue</p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-xs font-medium text-glass-secondary mb-1.5 tracking-widest uppercase"
+              >
                 Email
               </label>
               <input
                 id="email"
                 type="email"
                 autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="you@example.com"
+                {...register('email')}
+                className={`w-full px-3 py-2.5 rounded-lg text-sm text-glass-text placeholder:text-glass-muted focus:outline-none transition-all ${
+                  errors.email
+                    ? 'border border-glass-red/60 focus:border-glass-red focus:ring-1 focus:ring-glass-red/20'
+                    : 'border border-white/10 focus:border-glass-accent focus:ring-1 focus:ring-glass-accent/20'
+                }`}
+                style={{ background: 'rgba(255,255,255,0.07)' }}
               />
+              {errors.email && (
+                <p className="mt-1.5 text-xs text-glass-red">{errors.email.message}</p>
+              )}
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="password"
+                className="block text-xs font-medium text-glass-secondary mb-1.5 tracking-widest uppercase"
+              >
                 Password
               </label>
               <input
                 id="password"
                 type="password"
                 autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="••••••••"
+                {...register('password')}
+                className={`w-full px-3 py-2.5 rounded-lg text-sm text-glass-text placeholder:text-glass-muted focus:outline-none transition-all ${
+                  errors.password
+                    ? 'border border-glass-red/60 focus:border-glass-red focus:ring-1 focus:ring-glass-red/20'
+                    : 'border border-white/10 focus:border-glass-accent focus:ring-1 focus:ring-glass-accent/20'
+                }`}
+                style={{ background: 'rgba(255,255,255,0.07)' }}
               />
+              {errors.password && (
+                <p className="mt-1.5 text-xs text-glass-red">{errors.password.message}</p>
+              )}
             </div>
 
-            {error && (
-              <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                {error}
+            {serverError && (
+              <p
+                className="text-sm text-glass-red rounded-lg px-3 py-2.5 border border-glass-red/20"
+                style={{ background: 'rgba(239,68,68,0.1)' }}
+              >
+                {serverError}
               </p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors"
+              disabled={isSubmitting}
+              className="w-full bg-glass-accent hover:bg-glass-accentDark disabled:opacity-50 text-glass-bg font-semibold py-2.5 rounded-lg text-sm transition-all duration-200 hover:shadow-[0_0_28px_rgba(56,189,248,0.45)]"
             >
-              {loading ? 'Signing in…' : 'Sign in'}
+              {isSubmitting ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
         </div>

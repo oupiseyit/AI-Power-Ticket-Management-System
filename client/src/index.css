@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --glass-bg: #0f172a;
+  --glass-text: #e2e8f0;
+  --glass-secondary: #94a3b8;
+  --glass-muted: #475569;
+  --glass-accent: #38bdf8;
+  --glass-accent-dark: #0ea5e9;
+  --glass-red: #ef4444;
+}
+
+html,
+body {
+  background-color: var(--glass-bg);
+  color: var(--glass-text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}

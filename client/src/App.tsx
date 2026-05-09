@@ -8,8 +8,8 @@ function ProtectedLayout() {
 
   if (isPending) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <span className="text-sm text-gray-500">Loading…</span>
+      <div className="min-h-screen bg-glass-bg flex items-center justify-center">
+        <span className="text-sm text-glass-secondary">Loading…</span>
       </div>
     )
   }
@@ -19,7 +19,7 @@ function ProtectedLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-glass-bg">
       <NavBar />
       <main className="p-8">
         <Outlet />
@@ -43,8 +43,8 @@ export default function App() {
         <Route path="/login" element={<AuthRedirect />} />
         <Route element={<ProtectedLayout />}>
           <Route path="/" element={<Navigate to="/tickets" replace />} />
-          <Route path="/tickets" element={<div>Tickets — coming in Phase 3</div>} />
-          <Route path="/tickets/:id" element={<div>Ticket detail — coming in Phase 3</div>} />
+          <Route path="/tickets" element={null} />
+          <Route path="/tickets/:id" element={null} />
         </Route>
       </Routes>
     </BrowserRouter>
